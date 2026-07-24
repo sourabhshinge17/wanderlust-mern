@@ -1,0 +1,107 @@
+/* ================= HERO ================= */
+
+.hero-section{
+   min-height: 300px;
+
+    height:auto;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    margin:2rem 0;
+
+    background-image:
+    linear-gradient(
+        rgba(0,0,0,.45),
+        rgba(0,0,0,.45)
+    ),
+    url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80");
+
+    background-size:cover;
+
+    background-position:center;
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.hero-overlay{
+
+    padding:3rem;
+
+    padding-bottom:4rem;
+
+}
+
+.hero-content{
+
+    max-width:520px;
+
+    color:white;
+
+}
+
+.hero-badge{
+
+    background:rgba(255,255,255,.18);
+
+    padding:.45rem 1rem;
+
+    border-radius:999px;
+
+    backdrop-filter:blur(10px);
+
+    font-size:.9rem;
+
+}
+
+.hero-content h1{
+
+    font-size:2.2rem;
+
+    line-height:1.2;
+
+}
+
+.hero-content p{
+
+    margin:1rem 0;
+
+    font-size:1.05rem;
+
+    color:#f2f2f2;
+
+}
+
+.hero-btn{
+
+    display:inline-block;
+
+    background:#FF385C;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:.85rem 1.6rem;
+
+    border-radius:999px;
+
+    font-weight:600;
+
+    transition:.25s ease;
+
+}
+
+.hero-btn:hover{
+
+    background:#E31C5F;
+
+    transform:translateY(-2px);
+
+    color:white;
+
+}

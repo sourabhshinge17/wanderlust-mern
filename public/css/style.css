@@ -1,0 +1,312 @@
+ body {
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+} 
+.container{
+    flex:1;
+    margin-top:2rem;
+}
+ .navbar{
+    height:5rem;
+    background-color:white !important;
+}
+.navbar-brand i{
+    color:#fe424d;
+    font-size:2rem;
+}
+.nav-link {
+  color: #222222 !important;
+}
+.f-info{
+    height:4.8rem;
+    background:#f7f7f7;
+    border-top:1px solid #dddddd;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 2rem;
+    margin-top:2rem;
+    flex-wrap:wrap;
+}
+
+.f-info-left,
+.f-info-right{
+    display:flex;
+    align-items:center;
+    gap:0.8rem;
+}
+
+.f-info-left a{
+    color:#222;
+    text-decoration:none;
+}
+
+.f-info-left a:hover{
+    text-decoration:underline;
+}
+
+.f-info-right span{
+    font-weight:500;
+    cursor:pointer;
+}
+
+.f-info-social{
+    display:flex;
+    gap:1rem;
+}
+
+.f-info-social i{
+    font-size:1.2rem;
+    cursor:pointer;
+}
+
+.f-info-social i:hover{
+    color:#555;
+} 
+@media(max-width:768px){
+
+    .f-info{
+        flex-direction:column;
+        height:auto;
+        gap:1rem;
+        padding:1rem;
+    }
+
+    .f-info-left,
+    .f-info-right{
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+}
+/* LISTING CARD */
+
+/* ==========================
+        LISTING CARD
+========================== */
+
+/* ==========================
+        LISTING CARD
+========================== */
+
+.listing-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:28px;
+    margin-top:2rem;
+}
+
+.listing-link{
+    text-decoration:none;
+    color:inherit;
+}
+
+.listing-card{
+    transition:all .35s ease;
+    cursor:pointer;
+}
+
+.listing-card:hover{
+    transform:translateY(-8px);
+}
+
+.img-wrap{
+    position:relative;
+    overflow:hidden;
+    border-radius:18px;
+}
+
+.img-wrap img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-radius:18px;
+    transition:transform .45s ease;
+}
+
+.listing-card:hover .img-wrap img{
+    transform:scale(1.08);
+}
+
+.favorite-icon{
+    position:absolute;
+    top:15px;
+    right:15px;
+    font-size:1.5rem;
+    color:white;
+    filter:drop-shadow(0 2px 8px rgba(0,0,0,.45));
+    transition:.25s ease;
+}
+
+.favorite-icon:hover{
+    color:#FF385C;
+    transform:scale(1.2);
+}
+
+.favorite-icon:active{
+    transform:scale(.9);
+}
+
+.card-body{
+    padding:.8rem .2rem;
+}
+
+.card-header-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:.25rem;
+}
+
+.card-location{
+    margin:0;
+    font-weight:600;
+    color:#222;
+    font-size:15px;
+}
+
+.rating-badge{
+    font-size:.9rem;
+    font-weight:600;
+    color:#222;
+}
+
+.rating-badge i{
+    color:#FF385C;
+    font-size:.8rem;
+}
+
+.card-title{
+    margin:.25rem 0;
+    color:#717171;
+    font-size:14px;
+}
+
+.card-price{
+    margin:0;
+    font-weight:600;
+    color:#222;
+    font-size:15px;
+}
+
+.listing-card:hover{
+    box-shadow:0 16px 35px rgba(0,0,0,.12);
+}
+/* NEW LISITNG FORM */
+h3{
+    font-weight:700;
+    margin-bottom:1.5rem;
+}
+.add-btn{
+    background:#fe424d !important;
+    color:#fff !important;
+    border:none !important;
+}
+
+.add-btn:hover{
+    background:#e63946 !important;
+}
+/* EDIT LISTING FORM */
+.edit-btn{
+    background:#fe424d !important;
+    color:#fff !important;
+    border:none !important;
+}
+
+/* ====================== */
+/* Airbnb Review Section  */
+/* ====================== */
+
+.review-card{
+
+    background:white;
+    border:1px solid #dddddd;
+    border-radius:18px;
+
+    padding:1.3rem;
+
+    transition:.3s ease;
+
+    height:100%;
+
+    box-shadow:0 2px 12px rgba(0,0,0,.06);
+
+}
+
+.review-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+
+}
+
+.review-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.review-avatar{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.stars{
+
+    color:#FF385C;
+
+    font-size:1rem;
+
+}
+
+.review-comment{
+
+    line-height:1.7;
+
+    color:#444;
+
+    min-height:70px;
+
+}
+
+.review-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.review-footer button{
+
+    border-radius:25px;
+
+    transition:.25s;
+
+}
+
+.review-footer button:hover{
+
+    transform:scale(1.05);
+
+}
+.tax-info {
+    display: none;
+}

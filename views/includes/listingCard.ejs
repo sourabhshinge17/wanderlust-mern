@@ -1,0 +1,59 @@
+<a href="/listings/<%= listing._id %>" class="listing-link">
+
+    <div class="listing-card">
+
+        <div class="img-wrap">
+
+            <img
+                src="<%= listing.image.url %>"
+                alt="<%= listing.title %>"
+            >
+
+            <!-- Wishlist Icon -->
+            <i class="fa-regular fa-heart favorite-icon"></i>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="card-header-row">
+
+                <p class="card-location">
+                    <%= listing.location %>, <%= listing.country %>
+                </p>
+
+                <span class="rating-badge">
+
+          <% if(listing.avgRating){ %>
+
+          <i class="fa-solid fa-star"></i>
+
+          <%= listing.avgRating.toFixed(1) %>
+
+          <% } else { %>
+
+          <i class="fa-solid fa-star"></i>New
+
+          <% } %>
+
+          </span>
+
+            </div>
+
+            <p class="card-title">
+                <%= listing.title %>
+            </p>
+
+            <p class="card-price">
+                ₹<%= listing.price.toLocaleString("en-IN") %> / night
+
+                <span class="tax-info">
+                    &nbsp;&nbsp;+18% GST
+                </span>
+            </p>
+
+        </div>
+
+    </div>
+
+</a>
