@@ -102,14 +102,26 @@ app.all("*", (req, res, next) => {
 });
 // Error Handler
 app.use((err, req, res, next) => {
-    let {
+
+    if(res.headersSent){
+        return next(err);
+    }
+
+    const {
         statusCode = 500,
         message = "Something went wrong!"
     } = err;
 
     res.status(statusCode).render("error", { message });
+
 });
 
-app.listen(3000, () => {
-    console.log("Server running...");
-});
+const PORT = process.env.PORT || 3000;
+
+main()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on ${PORT}`);
+    });
+  })
+  .catch((err) => console.log(err));

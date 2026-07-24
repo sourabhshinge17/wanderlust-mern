@@ -144,10 +144,10 @@ module.exports.deleteListing = async (req, res) => {
     module.exports.renderEditForm = async (req, res) => {
         const { id } = req.params;
         const listing = await Listing.findById(id);
-         if(!listing) {
-            req.flash("error","Listing u requested that does not exist");
-            res.redirect("/listings")
-        }
+         if (!listing) {
+    req.flash("error", "Listing you requested does not exist");
+    return res.redirect("/listings");
+}
         let orignalImageUrl = listing.image.url;
        orignalImageUrl = orignalImageUrl.replace("/upload","/upload/h_300,w_250")
         res.render("listings/edit", { listing , orignalImageUrl});
