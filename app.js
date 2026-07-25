@@ -45,9 +45,6 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 const store = MongoStore.create({
     mongoUrl: db_url,
-    crypto : {
-        secret : process.env.SECRET,
-    },
     touchAfter: 24 * 3600,
 });
 
@@ -102,18 +99,12 @@ app.all("*", (req, res, next) => {
 });
 // Error Handler
 app.use((err, req, res, next) => {
-
+    console.error(err);   // 🚨 add this — without it you're debugging blind forever
     if(res.headersSent){
         return next(err);
     }
-
-    const {
-        statusCode = 500,
-        message = "Something went wrong!"
-    } = err;
-
+    const { statusCode = 500, message = "Something went wrong!" } = err;
     res.status(statusCode).render("error", { message });
-
 });
 
 const PORT = process.env.PORT || 3000;
