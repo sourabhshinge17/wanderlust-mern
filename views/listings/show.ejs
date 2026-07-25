@@ -3,23 +3,14 @@
 <div class="container mt-4">
 
     <h2>
-
 <%= listing.title %>
-
-<span class="show-rating">
-
+<span class="show-rating badge bg-dark ms-2" style="font-size: 0.85rem; vertical-align: middle;">
 <% if(listing.avgRating){ %>
-
 ⭐ <%= listing.avgRating.toFixed(1) %>
-
 <% } else { %>
-
-New
-
+★ New
 <% } %>
-
 </span>
-
 </h2>
 
     <div class="card col-8 offset-2 shadow-sm">
@@ -34,7 +25,7 @@ New
         <div class="card-body">
 
             <p class="card-text">
-                <i>Owned by <%= listing.owner.username%></i>
+                <i>Owned by <%= listing.owner ? listing.owner.username : "Unknown Host" %></i>
          
             </p>
             <p class="card-text">

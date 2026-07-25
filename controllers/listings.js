@@ -2,33 +2,57 @@ const Listing = require("../models/listing");
 const { uploadToCloudinary } = require("../cloudconfig");
 const axios = require("axios");
 
+function attachAvgRating(listings) {
+    listings.forEach((listing) => {
+        if (listing.reviews.length > 0) {
+            const total = listing.reviews.reduce((sum, review) => sum + review.rating, 0);
+            listing.avgRating = total / listing.reviews.length;
+        } else {
+            listing.avgRating = null;
+        }
+    });
+}
+
 module.exports.index = async (req, res) => {
 
-    const allListings = await Listing.find({})
-        .populate("reviews");
+    const { category, location } = req.query;
+    let filter = {};
 
-    allListings.forEach((listing) => {
+    // "Trending" is a sort mode, not a stored field — don't filter on it
+    if (category && category !== "Trending") {
+        filter.category = category;
+    }
+    if (location) {
+        filter.location = { $regex: location, $options: "i" };
+    }
 
-        if (listing.reviews.length > 0) {
+    let allListings = await Listing.find(filter).populate("reviews");
 
-            const total = listing.reviews.reduce((sum, review) => {
-                return sum + review.rating;
-            }, 0);
+    if (!category || category === "Trending") {
+        // "Trending" = most-reviewed first (cheap proxy until you track view counts)
+        allListings.sort((a, b) => b.reviews.length - a.reviews.length);
+    }
 
-            listing.avgRating = total / listing.reviews.length;
+    attachAvgRating(allListings);
 
-        } else {
-
-            listing.avgRating = null;
-
-        }
-
+    res.render("listings/index", {
+        allListings,
+        activeCategory: category || "Trending",
+        searchLocation: location || "",
     });
-
-    res.render("listings/index", { allListings });
-
 };
 
+// NEW: powers the "My Listings" navbar link
+module.exports.myListings = async (req, res) => {
+    const allListings = await Listing.find({ owner: req.user._id }).populate("reviews");
+    attachAvgRating(allListings);
+
+    res.render("listings/index", {
+        allListings,
+        activeCategory: "Trending",
+        searchLocation: "",
+    });
+};
 
 module.exports.createListing = async (req, res) => {
     const newListing = new Listing(req.body.listing);
@@ -43,14 +67,12 @@ module.exports.createListing = async (req, res) => {
 
     newListing.owner = req.user._id;
 
-    // ADD THIS BLOCK
     const geoRes = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: { q: `${req.body.listing.location}, ${req.body.listing.country}`, format: 'json', limit: 1 },
         headers: { 'User-Agent': 'Wanderlust-App' }
     });
     newListing.lat = geoRes.data[0]?.lat || 0;
     newListing.lng = geoRes.data[0]?.lon || 0;
-    // END ADD
 
     await newListing.save();
 
@@ -60,55 +82,28 @@ module.exports.createListing = async (req, res) => {
 
 module.exports.showListing = async (req, res) => {
 
-    // Find the listing by ID
-    // Also fetch reviews, review authors, and owner details
-
     const listing = await Listing.findById(req.params.id)
-
         .populate({
             path: "reviews",
             populate: {
                 path: "author",
             },
         })
-
         .populate("owner");
 
-
-    // If no listing exists, redirect safely
     if (!listing) {
         req.flash("error", "Listing not found!");
         return res.redirect("/listings");
     }
 
-
-    // -------------------------------
-    // Calculate Average Rating
-    // -------------------------------
-
     if (listing.reviews.length > 0) {
-
-        // Add all ratings together
-        const total = listing.reviews.reduce((sum, review) => {
-
-            return sum + review.rating;
-
-        }, 0);
-
-        // Divide by number of reviews
+        const total = listing.reviews.reduce((sum, review) => sum + review.rating, 0);
         listing.avgRating = total / listing.reviews.length;
-
     } else {
-
-        // No reviews yet
         listing.avgRating = null;
-
     }
 
-
-    // Render the page
     res.render("listings/show", { listing });
-
 };
 
 module.exports.updateListing = async (req, res) => {
@@ -116,14 +111,12 @@ module.exports.updateListing = async (req, res) => {
     let listing = await Listing.findById(id);
     listing.set(req.body.listing);
 
-    // ADD THIS BLOCK
     const geoRes = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: { q: `${req.body.listing.location}, ${req.body.listing.country}`, format: 'json', limit: 1 },
         headers: { 'User-Agent': 'Wanderlust-App' }
     });
     listing.lat = geoRes.data[0]?.lat || 0;
     listing.lng = geoRes.data[0]?.lon || 0;
-    // END ADD
 
     if (req.file) {
         const result = await uploadToCloudinary(req.file.buffer);
@@ -136,24 +129,31 @@ module.exports.updateListing = async (req, res) => {
 };
 
 module.exports.deleteListing = async (req, res) => {
-        const { id } = req.params;
-        await Listing.findByIdAndDelete(id);
-        res.redirect("/listings");
+    const { id } = req.params;
+    await Listing.findByIdAndDelete(id);
+    res.redirect("/listings");
+};
+
+module.exports.renderEditForm = async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+
+    if (!listing) {
+        req.flash("error", "Listing you requested does not exist");
+        return res.redirect("/listings");
     }
 
-    module.exports.renderEditForm = async (req, res) => {
-        const { id } = req.params;
-        const listing = await Listing.findById(id);
-         if (!listing) {
-    req.flash("error", "Listing you requested does not exist");
-    return res.redirect("/listings");
-}
-        let orignalImageUrl = listing.image.url;
-       orignalImageUrl = orignalImageUrl.replace("/upload","/upload/h_300,w_250")
-        res.render("listings/edit", { listing , orignalImageUrl});
-    }
+    let orignalImageUrl = listing.image.url;
+    orignalImageUrl = orignalImageUrl.replace("/upload", "/upload/h_300,w_250");
 
-   module.exports.renderNewForm =  (req, res) => {
-    
-    res.render("listings/new");
-}
+    res.render("listings/edit", {
+        listing,
+        orignalImageUrl,
+        categories: Listing.CATEGORIES,
+    });
+};
+module.exports.renderNewForm = (req, res) => {
+    res.render("listings/new", {
+        categories: Listing.CATEGORIES,
+    });
+};

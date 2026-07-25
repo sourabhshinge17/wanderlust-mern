@@ -2,82 +2,127 @@
 <%- include("../includes/hero") %>
 <!-- <h1>All Listings</h1> -->
  <style>
-  #filters {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.filter{
-  text-align: center;
-  margin-right: 2rem;
-    margin-top: 2rem;
-    opacity: 0.7;
-}
-.filter:hover {
-  opacity: 1;
-  cursor: pointer;
+.filters-wrapper{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:1rem;
+    margin:2rem 0;
 }
 
-.filter.active {
-  opacity: 1;
-  border-bottom: 1px solid black;
+#filters{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:1.2rem;
+    flex:1;
 }
-.filter p {
-  font-size: 0.8rem;
+
+.filter{
+    text-align:center;
+    opacity:0.7;
+    text-decoration:none;
+    color:inherit;
+    transition:0.25s;
 }
-.tax-switch {
-  border: 1px solid black;
-  border-radius: 1rem;
-  height: 3.5rem;
-  padding: 1rem;
-  margin-left: 5rem;
-  display: flex;
-  align-items: center;
+
+.filter:hover{
+    opacity:1;
+    transform:translateY(-2px);
 }
- </style>
- <div id="filters">
-  <div class="filter active">
-    <div><i class="fa-solid fa-fire"></i></div>
-    <p>Trending</p>
+
+.filter.active{
+    opacity:1;
+    border-bottom:2px solid #000;
+}
+
+.filter p{
+    margin-top:.4rem;
+    margin-bottom:0;
+    font-size:.8rem;
+}
+
+.tax-switch{
+    border:1px solid #ddd;
+    border-radius:14px;
+    padding:.7rem 1rem;
+    background:#fff;
+    white-space:nowrap;
+    flex-shrink:0;
+}
+</style>
+
+<% const cat = typeof activeCategory !== 'undefined' ? activeCategory : 'Trending'; %>
+
+<div class="filters-wrapper">
+
+  <div id="filters">
+    <a href="/listings" class="filter <%= cat === 'Trending' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-fire"></i></div>
+      <p>Trending</p>
+    </a>
+
+    <a href="/listings?category=Rooms" class="filter <%= cat === 'Rooms' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-bed"></i></div>
+      <p>Rooms</p>
+    </a>
+
+    <a href="/listings?category=Iconic Cities" class="filter <%= cat === 'Iconic Cities' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-mountain-city"></i></div>
+      <p>Iconic Cities</p>
+    </a>
+
+    <a href="/listings?category=Mountains" class="filter <%= cat === 'Mountains' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-mountain"></i></div>
+      <p>Mountains</p>
+    </a>
+
+    <a href="/listings?category=Castles" class="filter <%= cat === 'Castles' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-chess-rook"></i></div>
+      <p>Castles</p>
+    </a>
+
+    <a href="/listings?category=Amazing Pools" class="filter <%= cat === 'Amazing Pools' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-person-swimming"></i></div>
+      <p>Amazing Pools</p>
+    </a>
+
+    <a href="/listings?category=Camping" class="filter <%= cat === 'Camping' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-campground"></i></div>
+      <p>Camping</p>
+    </a>
+
+    <a href="/listings?category=Farms" class="filter <%= cat === 'Farms' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-cow"></i></div>
+      <p>Farms</p>
+    </a>
+
+    <a href="/listings?category=Arctic" class="filter <%= cat === 'Arctic' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-snowflake"></i></div>
+      <p>Arctic</p>
+    </a>
+
+    <a href="/listings?category=Beachfront" class="filter <%= cat === 'Beachfront' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-umbrella-beach"></i></div>
+      <p>Beachfront</p>
+    </a>
+
+    <a href="/listings?category=Countryside" class="filter <%= cat === 'Countryside' ? 'active' : '' %>">
+      <div><i class="fa-solid fa-wheat-awn"></i></div>
+      <p>Countryside</p>
+    </a>
   </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-bed"></i></div>
-    <p>Rooms</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-mountain-city"></i></div>
-    <p>Iconic Cities</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-mountain"></i></div>
-    <p>Mountains</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-chess-rook"></i></div>
-    <p>Castles</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-person-swimming"></i></div>
-    <p>Amazing Pools</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-campground"></i></div>
-    <p>Camping</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-cow"></i></div>
-    <p>Farms</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-snowflake"></i></div>
-    <p>Arctic</p>
-  </div>
+
   <div class="tax-switch">
-    <div class="form-check-reverse form-switch">
-  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-  <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
-</div>
+    <div class="form-check form-switch mb-0">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+      <label class="form-check-label ms-2" for="flexSwitchCheckDefault">
+        Display total after taxes
+      </label>
+    </div>
   </div>
+
 </div>
 
 <% if (allListings.length === 0) { %>

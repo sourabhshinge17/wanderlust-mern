@@ -9,7 +9,8 @@ const sampleListings = [
     },
     price: 1500,
     location: "Malibu",
-    country: "United States",
+   country: "United States",
+    category: "Beachfront",
   },
   {
     title: "Modern Loft in Downtown",
@@ -22,6 +23,7 @@ const sampleListings = [
     price: 1200,
     location: "New York City",
     country: "United States",
+    category: "Rooms",
   },
   {
     title: "Mountain Retreat",
@@ -34,6 +36,7 @@ const sampleListings = [
     price: 1000,
     location: "Aspen",
     country: "United States",
+    category: "Mountains",
   },
   {
     title: "Historic Villa in Tuscany",
@@ -46,6 +49,7 @@ const sampleListings = [
     price: 2500,
     location: "Florence",
     country: "Italy",
+    category: "Countryside",
   },
   {
     title: "Secluded Treehouse Getaway",
@@ -58,6 +62,7 @@ const sampleListings = [
     price: 800,
     location: "Portland",
     country: "United States",
+    category: "Camping",
   },
   {
     title: "Beachfront Paradise",
@@ -70,6 +75,7 @@ const sampleListings = [
     price: 2000,
     location: "Cancun",
     country: "Mexico",
+category: "Beachfront",
   },
   {
     title: "Rustic Cabin by the Lake",
@@ -82,6 +88,7 @@ const sampleListings = [
     price: 900,
     location: "Lake Tahoe",
     country: "United States",
+category: "Camping",
   },
   {
     title: "Luxury Penthouse with City Views",
@@ -94,6 +101,7 @@ const sampleListings = [
     price: 3500,
     location: "Los Angeles",
     country: "United States",
+category: "Iconic Cities",
   },
   {
     title: "Ski-In/Ski-Out Chalet",
@@ -106,6 +114,7 @@ const sampleListings = [
     price: 3000,
     location: "Verbier",
     country: "Switzerland",
+category: "Mountains",
   },
   {
     title: "Safari Lodge in the Serengeti",
@@ -118,6 +127,7 @@ const sampleListings = [
     price: 4000,
     location: "Serengeti National Park",
     country: "Tanzania",
+category: "Camping",
   },
   {
     title: "Historic Canal House",
@@ -130,6 +140,7 @@ const sampleListings = [
     price: 1800,
     location: "Amsterdam",
     country: "Netherlands",
+category: "Iconic Cities",
   },
   {
     title: "Private Island Retreat",
@@ -142,6 +153,7 @@ const sampleListings = [
     price: 10000,
     location: "Fiji",
     country: "Fiji",
+category: "Beachfront",
   },
   {
     title: "Charming Cottage in the Cotswolds",
@@ -154,6 +166,7 @@ const sampleListings = [
     price: 1200,
     location: "Cotswolds",
     country: "United Kingdom",
+category: "Countryside",
   },
   {
     title: "Historic Brownstone in Boston",
@@ -165,7 +178,8 @@ const sampleListings = [
     },
     price: 2200,
     location: "Boston",
-    country: "United States",
+   country: "United States",
+category: "Iconic Cities",
   },
   {
     title: "Beachfront Bungalow in Bali",
@@ -177,7 +191,8 @@ const sampleListings = [
     },
     price: 1800,
     location: "Bali",
-    country: "Indonesia",
+   country: "Indonesia",
+category: "Beachfront",
   },
   {
     title: "Mountain View Cabin in Banff",
@@ -189,7 +204,8 @@ const sampleListings = [
     },
     price: 1500,
     location: "Banff",
-    country: "Canada",
+   country: "Canada",
+category: "Mountains",
   },
   {
     title: "Art Deco Apartment in Miami",
@@ -201,7 +217,8 @@ const sampleListings = [
     },
     price: 1600,
     location: "Miami",
-    country: "United States",
+country: "United States",
+category: "Rooms",
   },
   {
     title: "Tropical Villa in Phuket",
@@ -214,6 +231,7 @@ const sampleListings = [
     price: 3000,
     location: "Phuket",
     country: "Thailand",
+category: "Amazing Pools",
   },
   {
     title: "Historic Castle in Scotland",
@@ -225,7 +243,8 @@ const sampleListings = [
     },
     price: 4000,
     location: "Scottish Highlands",
-    country: "United Kingdom",
+   country: "United Kingdom",
+category: "Castles",
   },
   {
     title: "Desert Oasis in Dubai",
@@ -237,7 +256,8 @@ const sampleListings = [
     },
     price: 5000,
     location: "Dubai",
-    country: "United Arab Emirates",
+    ccountry: "United Arab Emirates",
+category: "Amazing Pools",
   },
   {
     title: "Rustic Log Cabin in Montana",
@@ -250,6 +270,7 @@ const sampleListings = [
     price: 1100,
     location: "Montana",
     country: "United States",
+category: "Camping",
   },
   {
     title: "Beachfront Villa in Greece",
@@ -262,6 +283,7 @@ const sampleListings = [
     price: 2500,
     location: "Mykonos",
     country: "Greece",
+category: "Beachfront",
   },
   {
     title: "Eco-Friendly Treehouse Retreat",
@@ -274,6 +296,7 @@ const sampleListings = [
     price: 750,
     location: "Costa Rica",
     country: "Costa Rica",
+category: "Camping",
   },
   {
     title: "Historic Cottage in Charleston",
@@ -285,7 +308,8 @@ const sampleListings = [
     },
     price: 1600,
     location: "Charleston",
-    country: "United States",
+   country: "United States",
+category: "Countryside",
   },
   {
     title: "Modern Apartment in Tokyo",
@@ -298,6 +322,7 @@ const sampleListings = [
     price: 2000,
     location: "Tokyo",
     country: "Japan",
+category: "Rooms",
   },
   {
     title: "Lakefront Cabin in New Hampshire",
@@ -309,7 +334,8 @@ const sampleListings = [
     },
     price: 1200,
     location: "New Hampshire",
-    country: "United States",
+   country: "United States",
+category: "Camping",
   },
   {
     title: "Luxury Villa in the Maldives",
@@ -322,6 +348,7 @@ const sampleListings = [
     price: 6000,
     location: "Maldives",
     country: "Maldives",
+category: "Amazing Pools",
   },
   {
     title: "Ski Chalet in Aspen",
@@ -334,6 +361,7 @@ const sampleListings = [
     price: 4000,
     location: "Aspen",
     country: "United States",
+category: "Mountains",
   },
   {
     title: "Secluded Beach House in Costa Rica",
@@ -346,7 +374,86 @@ const sampleListings = [
     price: 1800,
     location: "Costa Rica",
     country: "Costa Rica",
+category: "Beachfront",
   },
+  {
+  title: "Organic Farm Stay",
+  description:
+    "Wake up to birdsong, fresh vegetables, and peaceful countryside views. Experience authentic farm life with organic meals and guided farm activities.",
+  image: {
+    filename: "listingimage",
+    url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60",
+  },
+  price: 1400,
+  location: "Nashik",
+  country: "India",
+  category: "Farms",
+},
+{
+  title: "Vineyard Farm Retreat",
+  description:
+    "Relax among vineyards and fruit orchards while enjoying fresh local cuisine and beautiful sunsets over rolling fields.",
+  image: {
+    filename: "listingimage",
+    url: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=60",
+  },
+  price: 2200,
+  location: "Tuscany",
+  country: "Italy",
+  category: "Farms",
+},
+{
+  title: "Glass Igloo Under Northern Lights",
+  description:
+    "Sleep beneath the magical Aurora Borealis in a luxury heated glass igloo surrounded by snowy wilderness.",
+  image: {
+    filename: "listingimage",
+    url: "https://images.unsplash.com/photo-1517821365201-7734f463f6b4?auto=format&fit=crop&w=800&q=60",
+  },
+  price: 5200,
+  location: "Rovaniemi",
+  country: "Finland",
+  category: "Arctic",
+},
+{
+  title: "Arctic Snow Cabin",
+  description:
+    "Enjoy a once-in-a-lifetime winter adventure with snowmobiling, husky rides, and breathtaking frozen landscapes.",
+  image: {
+    filename: "listingimage",
+    url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=800&q=60",
+  },
+  price: 4700,
+  location: "Tromsø",
+  country: "Norway",
+  category: "Arctic",
+},
+{
+  title: "Medieval Castle Estate",
+  description:
+    "Experience royal living in a beautifully restored medieval castle featuring grand halls, antique interiors, and lush gardens.",
+  image: {
+    filename: "listingimage",
+    url: "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?auto=format&fit=crop&w=800&q=60",
+  },
+  price: 6500,
+  location: "Prague",
+  country: "Czech Republic",
+  category: "Castles",
+},
+{
+  title: "Infinity Pool Sky Villa",
+  description:
+    "Luxury villa featuring a breathtaking infinity pool overlooking the ocean, perfect for unforgettable sunsets and premium relaxation.",
+  image: {
+    filename: "listingimage",
+    url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=60",
+  },
+  price: 7200,
+  location: "Santorini",
+  country: "Greece",
+  category: "Amazing Pools",
+},
 ];
 
 module.exports = { data: sampleListings };

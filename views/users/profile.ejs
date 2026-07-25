@@ -1,0 +1,10 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4">
+    <div class="card col-6 offset-3 shadow-sm p-4">
+        <h3 class="mb-4">My Profile</h3>
+        <p><strong>Username:</strong> <%= user.username %></p>
+        <p><strong>Email:</strong> <%= user.email %></p>
+        <a href="/listings/mine" class="btn btn-dark mt-3">View My Listings</a>
+    </div>
+</div>

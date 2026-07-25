@@ -46,3 +46,8 @@ module.exports.UserLogOut= (req,res,next) => {
    req.flash("success","Your successfully logout");
    res.redirect("/listings");
 }
+
+// NEW: powers the "My Profile" navbar link
+module.exports.renderProfile = (req, res) => {
+   res.render("users/profile.ejs", { user: req.user });
+}

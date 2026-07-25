@@ -2,16 +2,13 @@ const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listing.js");
 const wrapAsync = require('../utils/wrapAsync.js');
-const { isLoggedIn, isOwner ,validateListing } = require("../middleware.js");
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 const { create } = require("../models/review.js");
-const multer  = require('multer')
+const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 
-    //index and create route
-router
-    .route("/")
-
+// index and create route
 router
     .route("/")
     .get(wrapAsync(listingController.index))
@@ -22,25 +19,28 @@ router
         wrapAsync(listingController.createListing)
     );
 
-    // NEW
-router.get("/new", isLoggedIn,listingController.renderNewForm);
+// NEW
+router.get("/new", isLoggedIn, listingController.renderNewForm);
 
-    //show , update and delete
+// NEW: must sit before /:id — Express matches routes top-down, and "mine"
+// would otherwise be captured as an :id value and 500 on findById("mine")
+router.get("/mine", isLoggedIn, wrapAsync(listingController.myListings));
+
+// show, update and delete
 router
     .route("/:id")
     .get(wrapAsync(listingController.showListing))
-    .put(isLoggedIn,isOwner,
+    .put(isLoggedIn, isOwner,
         upload.single('listing[image]'),
-    validateListing,
-    wrapAsync(listingController.updateListing)
+        validateListing,
+        wrapAsync(listingController.updateListing)
     )
-    .delete(isLoggedIn,isOwner,
+    .delete(isLoggedIn, isOwner,
         wrapAsync(listingController.deleteListing)
     );
 
-
 // EDIT
-router.get("/:id/edit", isLoggedIn,isOwner,
+router.get("/:id/edit", isLoggedIn, isOwner,
     wrapAsync(listingController.renderEditForm)
 );
 
