@@ -23,9 +23,12 @@ module.exports.index = async (req, res) => {
         filter.category = category;
     }
     if (location) {
-        filter.location = { $regex: location, $options: "i" };
-    }
-
+    filter.$or = [
+        { title: { $regex: location, $options: "i" } },
+        { location: { $regex: location, $options: "i" } },
+        { country: { $regex: location, $options: "i" } },
+    ];
+}
     let allListings = await Listing.find(filter).populate("reviews");
 
     if (!category || category === "Trending") {
@@ -81,14 +84,8 @@ module.exports.createListing = async (req, res) => {
 };
 
 module.exports.showListing = async (req, res) => {
-
     const listing = await Listing.findById(req.params.id)
-        .populate({
-            path: "reviews",
-            populate: {
-                path: "author",
-            },
-        })
+        .populate({ path: "reviews", populate: { path: "author" } })
         .populate("owner");
 
     if (!listing) {
@@ -96,16 +93,10 @@ module.exports.showListing = async (req, res) => {
         return res.redirect("/listings");
     }
 
-    if (listing.reviews.length > 0) {
-        const total = listing.reviews.reduce((sum, review) => sum + review.rating, 0);
-        listing.avgRating = total / listing.reviews.length;
-    } else {
-        listing.avgRating = null;
-    }
+    attachAvgRating([listing]);   // reuse your existing helper so avgRating shows on show.ejs too
 
     res.render("listings/show", { listing });
 };
-
 module.exports.updateListing = async (req, res) => {
     const { id } = req.params;
     let listing = await Listing.findById(id);
