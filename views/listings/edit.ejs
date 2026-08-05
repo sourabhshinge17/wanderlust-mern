@@ -140,24 +140,22 @@
   <label for="category" class="form-label">Category</label>
 
   <select
-    name="listing.category"
-    id="category"
-    class="form-select"
-    required
-  >
-    <% categories.forEach(category => { %>
-
-      <option
-        value="<%= category %>"
-        <%= listing.category === category ? "selected" : "" %>>
-        <%= category %>
-      </option>
-
-    <% }) %>
-
-  </select>
-</div>
-
+  name="listing[category]"
+  id="category"
+  class="form-select"
+  required
+>
+  <option value="" disabled <%= !listing.category ? "selected" : "" %>>
+    Select a category
+  </option>
+  <% categories.forEach(category => { %>
+    <option
+      value="<%= category %>"
+      <%= listing.category === category ? "selected" : "" %>>
+      <%= category %>
+    </option>
+  <% }) %>
+</select>
             </div>
 
             <button type="submit" class="btn btn-dark mt-3">

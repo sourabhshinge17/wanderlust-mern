@@ -25,6 +25,11 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
 // NEW: must sit before /:id — Express matches routes top-down, and "mine"
 // would otherwise be captured as an :id value and 500 on findById("mine")
 router.get("/mine", isLoggedIn, wrapAsync(listingController.myListings));
+router.post(
+    "/:id/wishlist",
+    isLoggedIn,
+    wrapAsync(listingController.toggleWishlist)
+);
 
 // show, update and delete
 router

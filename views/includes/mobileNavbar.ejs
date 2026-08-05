@@ -1,0 +1,31 @@
+<div class="mobile-navbar d-lg-none">
+    <div class="mobile-top">
+        <a href="/listings" class="mobile-logo">
+            <i class="fa-solid fa-compass"></i>
+            <span>Perch</span>
+        </a>
+        <button class="mobile-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="list-unstyled">
+            <li class="mb-2"><a href="/listings/new" class="btn btn-outline-dark w-100">Become a Host</a></li>
+            <% if(typeof currUser !== 'undefined' && currUser){ %>
+                <li class="mb-2"><a href="/profile" class="btn btn-outline-dark w-100">My Profile</a></li>
+                <li class="mb-2"><a href="/listings/mine" class="btn btn-outline-dark w-100">My Listings</a></li>
+                <li class="mb-2"><a href="/logout" class="btn btn-dark w-100">Logout</a></li>
+            <% } else { %>
+                <li class="mb-2"><a href="/login" class="btn btn-outline-dark w-100">Login</a></li>
+                <li class="mb-2"><a href="/signup" class="btn btn-dark w-100">Sign Up</a></li>
+            <% } %>
+        </ul>
+    </div>
+</div>

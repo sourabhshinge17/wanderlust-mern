@@ -1,3 +1,6 @@
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 // backfill.js
 const mongoose = require('mongoose');
 const Listing = require('./models/listing');
@@ -5,7 +8,7 @@ const axios = require('axios');
 
 // Use the same DB as your app — read from .env or paste your actual URL here
 require('dotenv').config();
-const MONGO_URL = process.env.MONGO_URL || process.env.DB_URL || 'mongodb://127.0.0.1:27017/wanderlust';
+const MONGO_URL = process.env.ATLASDB_URL;
 
 async function main() {
     await mongoose.connect(MONGO_URL);
@@ -25,7 +28,7 @@ async function main() {
                     format: 'json',
                     limit: 1
                 },
-                headers: { 'User-Agent': 'Wanderlust-App' }
+                headers: { 'User-Agent': 'Perch-App' }
             });
 
             if (res.data && res.data[0]) {

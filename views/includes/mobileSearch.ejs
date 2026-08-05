@@ -1,0 +1,16 @@
+<form action="/listings" method="GET" class="mobile-search">
+    <button type="submit" class="mobile-search-icon">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <div class="mobile-search-text">
+        <input
+            type="text"
+            name="search"
+            class="mobile-search-input"
+            placeholder="Start your search"
+            autocomplete="off"
+            value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+        >
+        <small>Anywhere • Any week • Guests</small>
+    </div>
+</form>

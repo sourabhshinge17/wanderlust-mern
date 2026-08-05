@@ -1,17 +1,20 @@
-<a href="/listings/<%= listing._id %>" class="listing-link">
+<div class="listing-card">
 
-    <div class="listing-card">
+    <% if(currUser){ %>
+        <form action="/listings/<%= listing._id %>/wishlist" method="POST" class="wishlist-form">
+            <button type="submit" class="favorite-btn">
+                <i class="fa-regular fa-heart"></i>
+            </button>
+        </form>
+    <% } %>
+
+    <a href="/listings/<%= listing._id %>" class="listing-link">
 
         <div class="img-wrap">
-
             <img
                 src="<%= listing.image.url %>"
                 alt="<%= listing.title %>"
             >
-
-            <!-- Wishlist Icon -->
-            <i class="fa-regular fa-heart favorite-icon"></i>
-
         </div>
 
         <div class="card-body">
@@ -23,20 +26,13 @@
                 </p>
 
                 <span class="rating-badge">
-
-          <% if(listing.avgRating){ %>
-
-          <i class="fa-solid fa-star"></i>
-
-          <%= listing.avgRating.toFixed(1) %>
-
-          <% } else { %>
-
-          <i class="fa-solid fa-star"></i>New
-
-          <% } %>
-
-          </span>
+                    <% if(listing.avgRating){ %>
+                        <i class="fa-solid fa-star"></i>
+                        <%= listing.avgRating.toFixed(1) %>
+                    <% } else { %>
+                        <i class="fa-solid fa-star"></i> New
+                    <% } %>
+                </span>
 
             </div>
 
@@ -46,7 +42,6 @@
 
             <p class="card-price">
                 ₹<%= listing.price.toLocaleString("en-IN") %> / night
-
                 <span class="tax-info">
                     &nbsp;&nbsp;+18% GST
                 </span>
@@ -54,6 +49,6 @@
 
         </div>
 
-    </div>
+    </a>
 
-</a>
+</div>

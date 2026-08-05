@@ -1,11 +1,26 @@
- body {
-   display: flex;
-   flex-direction: column;
-   min-height: 100vh;
-} 
+ html {
+  height: auto !important;
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1 0 auto;  /* grow with content, don't shrink */
+  margin-top: 2rem;
+  padding: 0 20px;
+}
+
+@media(max-width:768px){
+
 .container{
-    flex:1;
-    margin-top:2rem;
+    padding:0;
+}
+
 }
  .navbar{
     height:5rem;
@@ -195,6 +210,31 @@
 .listing-card:hover{
     box-shadow:0 16px 35px rgba(0,0,0,.12);
 }
+
+.listing-card{
+    position: relative;
+}
+
+.favorite-btn{
+    position:absolute;
+    top:15px;
+    right:15px;
+
+    border:none;
+    background:none;
+
+    font-size:1.6rem;
+
+    cursor:pointer;
+
+    z-index:100;
+
+    color:white;
+}
+
+.favorite-btn:hover{
+    color:#ff385c;
+}
 /* NEW LISITNG FORM */
 h3{
     font-weight:700;
@@ -309,4 +349,21 @@ h3{
 }
 .tax-info {
     display: none;
+}
+.desktop-only { display: block; }
+.mobile-only  { display: none; }
+
+/* Hide hero on mobile, show search */
+@media (max-width: 991px) {
+    .desktop-only { display: none; }
+    .mobile-only  { display: block; }
+}
+
+/* Mobile listing cards: 1 per row */
+@media (max-width: 768px) {
+    .listing-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 0 16px;
+    }
 }

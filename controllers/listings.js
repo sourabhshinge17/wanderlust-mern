@@ -1,6 +1,7 @@
 const Listing = require("../models/listing");
 const { uploadToCloudinary } = require("../cloudconfig");
 const axios = require("axios");
+const User = require("../models/user");
 
 function attachAvgRating(listings) {
     listings.forEach((listing) => {
@@ -15,24 +16,23 @@ function attachAvgRating(listings) {
 
 module.exports.index = async (req, res) => {
 
-    const { category, location } = req.query;
+    const { category, search } = req.query;   // ← changed: location → search
     let filter = {};
 
     // "Trending" is a sort mode, not a stored field — don't filter on it
     if (category && category !== "Trending") {
         filter.category = category;
     }
-    if (location) {
-    filter.$or = [
-        { title: { $regex: location, $options: "i" } },
-        { location: { $regex: location, $options: "i" } },
-        { country: { $regex: location, $options: "i" } },
-    ];
-}
+    if (search) {                              // ← changed: location → search
+        filter.$or = [
+            { title: { $regex: search, $options: "i" } },
+            { location: { $regex: search, $options: "i" } },
+            { country: { $regex: search, $options: "i" } },
+        ];
+    }
     let allListings = await Listing.find(filter).populate("reviews");
 
     if (!category || category === "Trending") {
-        // "Trending" = most-reviewed first (cheap proxy until you track view counts)
         allListings.sort((a, b) => b.reviews.length - a.reviews.length);
     }
 
@@ -41,10 +41,9 @@ module.exports.index = async (req, res) => {
     res.render("listings/index", {
         allListings,
         activeCategory: category || "Trending",
-        searchLocation: location || "",
+        searchLocation: search || "",           // ← changed: location → search
     });
 };
-
 // NEW: powers the "My Listings" navbar link
 module.exports.myListings = async (req, res) => {
     const allListings = await Listing.find({ owner: req.user._id }).populate("reviews");
@@ -72,7 +71,7 @@ module.exports.createListing = async (req, res) => {
 
     const geoRes = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: { q: `${req.body.listing.location}, ${req.body.listing.country}`, format: 'json', limit: 1 },
-        headers: { 'User-Agent': 'Wanderlust-App' }
+        headers: { 'User-Agent': 'Perch-App' }
     });
     newListing.lat = geoRes.data[0]?.lat || 0;
     newListing.lng = geoRes.data[0]?.lon || 0;
@@ -85,7 +84,12 @@ module.exports.createListing = async (req, res) => {
 
 module.exports.showListing = async (req, res) => {
     const listing = await Listing.findById(req.params.id)
-        .populate({ path: "reviews", populate: { path: "author" } })
+        .populate({
+            path: "reviews",
+            populate: {
+                path: "author",
+            },
+        })
         .populate("owner");
 
     if (!listing) {
@@ -93,18 +97,32 @@ module.exports.showListing = async (req, res) => {
         return res.redirect("/listings");
     }
 
-    attachAvgRating([listing]);   // reuse your existing helper so avgRating shows on show.ejs too
+    attachAvgRating([listing]);
 
-    res.render("listings/show", { listing });
+    let isWishlisted = false;
+
+    if (req.user) {
+        const user = await User.findById(req.user._id);
+
+        isWishlisted = user.wishlist.some(
+            (listingId) => listingId.toString() === listing._id.toString()
+        );
+    }
+
+    res.render("listings/show", {
+        listing,
+        isWishlisted,
+    });
 };
 module.exports.updateListing = async (req, res) => {
+    console.log("REQ.BODY:", req.body);
     const { id } = req.params;
     let listing = await Listing.findById(id);
     listing.set(req.body.listing);
 
     const geoRes = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: { q: `${req.body.listing.location}, ${req.body.listing.country}`, format: 'json', limit: 1 },
-        headers: { 'User-Agent': 'Wanderlust-App' }
+        headers: { 'User-Agent': 'Perch-App' }
     });
     listing.lat = geoRes.data[0]?.lat || 0;
     listing.lng = geoRes.data[0]?.lon || 0;
@@ -147,4 +165,33 @@ module.exports.renderNewForm = (req, res) => {
     res.render("listings/new", {
         categories: Listing.CATEGORIES,
     });
+};
+
+module.exports.toggleWishlist = async (req, res) => {
+    const { id } = req.params;
+
+    const user = await User.findById(req.user._id);
+
+    // Check if listing already exists in wishlist
+    const exists = user.wishlist.some(
+        (listingId) => listingId.toString() === id
+    );
+
+    if (exists) {
+        // Remove from wishlist
+        user.wishlist = user.wishlist.filter(
+            (listingId) => listingId.toString() !== id
+        );
+
+        req.flash("success", "Removed from wishlist ❤️");
+    } else {
+        // Add to wishlist
+        user.wishlist.push(id);
+
+        req.flash("success", "Added to wishlist ❤️");
+    }
+
+    await user.save();
+
+    res.redirect(`/listings/${id}`);
 };

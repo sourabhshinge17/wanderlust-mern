@@ -1,9 +1,9 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="mt-4">
+<div class="d-flex justify-content-between align-items-center">
     <h2>
         <%= listing.title %>
-        <span class="show-rating badge bg-dark ms-2" style="font-size: 0.85rem; vertical-align: middle;">
+        <span class="show-rating badge bg-dark ms-2" style="font-size:0.85rem;">
             <% if(listing.avgRating){ %>
                 ⭐ <%= listing.avgRating.toFixed(1) %>
             <% } else { %>
@@ -11,6 +11,22 @@
             <% } %>
         </span>
     </h2>
+
+    <% if(currUser){ %>
+        <form action="/listings/<%= listing._id %>/wishlist" method="POST">
+            <button
+    class="btn btn-light border rounded-circle"
+    style="width:52px;height:52px;"
+>
+    <% if(isWishlisted){ %>
+        <i class="fa-solid fa-heart text-danger fs-4"></i>
+    <% } else { %>
+        <i class="fa-regular fa-heart fs-4"></i>
+    <% } %>
+</button>
+        </form>
+    <% } %>
+</div>
 
     <div class="card col-8 offset-2 shadow-sm">
         <img
@@ -33,11 +49,7 @@
             <p><strong>Price:</strong> ₹<%= listing.price.toLocaleString("en-IN") %> / night</p>
             <p><strong>Location:</strong> <%= listing.location %></p>
             <p><strong>Country:</strong> <%= listing.country %></p>
-<!-- TEMPORARY DEBUG — remove after fix -->
-<p style="color:red; font-weight:bold;">
-  DEBUG: lat=<%= JSON.stringify(listing.lat) %>, lng=<%= JSON.stringify(listing.lng) %>, type=<%= typeof listing.lat %>
-</p>
-<!-- END DEBUG -->
+
             <!-- MAP SECTION -->
             <% if (listing.lat != null && listing.lng != null) { %>
                 <p class="mt-3"><strong>Where you'll be:</strong></p>
@@ -173,7 +185,19 @@
 
         if (isNaN(lat) || isNaN(lng)) return;
 
-        const map = L.map('map').setView([lat, lng], 13);
+        const map = L.map('map', {
+    scrollWheelZoom: false, dragging: false, tap: false,
+    doubleClickZoom: false, boxZoom: false, keyboard: false
+}).setView([lat, lng], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19, attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+L.marker([lat, lng]).addTo(map).bindPopup(`<b>${title}</b><br>${location}`).openPopup();
+
+// Force Leaflet to release the container after render — final safety net
+setTimeout(() => map.invalidateSize(), 200);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'

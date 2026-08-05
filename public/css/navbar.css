@@ -311,3 +311,89 @@ box-shadow:0 8px 20px rgba(255,56,92,.35);
     border-color: #ddd;
     box-shadow: 0 2px 10px rgba(0,0,0,.12);
 }
+/* Mobile Navbar */
+
+.mobile-navbar{
+    display:none;
+}
+
+@media(max-width:768px){
+
+.custom-navbar{
+    display:none;
+}
+
+.mobile-navbar{
+    display:block;
+    background:white;
+    padding:14px 18px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.mobile-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.mobile-logo{
+    text-decoration:none;
+    color:#222;
+    font-weight:700;
+    font-size:1.2rem;
+}
+
+.mobile-logo i{
+    color:#ff385c;
+    margin-right:6px;
+}
+
+.mobile-menu{
+    color:#444;
+    font-size:1.3rem;
+}
+
+}
+/* ===========================
+   MOBILE SEARCH (Airbnb Style)
+=========================== */
+
+form.mobile-search {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    margin: 12px 16px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    border: 1px solid #ebebeb;
+    gap: 12px;
+}
+.mobile-search-icon {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: #222;
+    cursor: pointer;
+}
+.mobile-search-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.mobile-search-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    background: transparent;
+}
+.mobile-search-input::placeholder { color: #222; }
+.mobile-search small { color: #717171; font-size: 12px; }
+@media (min-width: 992px) { form.mobile-search { display: none !important; } }
+
+.mobile-navbar { padding: 12px 16px; background: #fff; border-bottom: 1px solid #ebebeb; }
+.mobile-top { display: flex; align-items: center; justify-content: space-between; }
+.mobile-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #ff385c; font-weight: 700; font-size: 18px; }
+.mobile-menu-btn { background: transparent; border: none; font-size: 20px; color: #222; cursor: pointer; }
