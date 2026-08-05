@@ -15,21 +15,23 @@ function attachAvgRating(listings) {
 }
 
 module.exports.index = async (req, res) => {
-
-    const { category, search } = req.query;   // ← changed: location → search
+    const { category, search, location } = req.query;   // ← added location
     let filter = {};
 
-    // "Trending" is a sort mode, not a stored field — don't filter on it
     if (category && category !== "Trending") {
         filter.category = category;
     }
-    if (search) {                              // ← changed: location → search
+
+    // Support BOTH ?search= and ?location= params
+    const searchTerm = search || location;                // ← fallback to location
+    if (searchTerm) {
         filter.$or = [
-            { title: { $regex: search, $options: "i" } },
-            { location: { $regex: search, $options: "i" } },
-            { country: { $regex: search, $options: "i" } },
+            { title: { $regex: searchTerm, $options: "i" } },
+            { location: { $regex: searchTerm, $options: "i" } },
+            { country: { $regex: searchTerm, $options: "i" } },
         ];
     }
+
     let allListings = await Listing.find(filter).populate("reviews");
 
     if (!category || category === "Trending") {
@@ -41,7 +43,7 @@ module.exports.index = async (req, res) => {
     res.render("listings/index", {
         allListings,
         activeCategory: category || "Trending",
-        searchLocation: search || "",           // ← changed: location → search
+        searchLocation: searchTerm || "",                
     });
 };
 // NEW: powers the "My Listings" navbar link

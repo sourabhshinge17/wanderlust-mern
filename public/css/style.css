@@ -129,9 +129,8 @@ body {
 }
 
 .img-wrap{
-    position:relative;
-    overflow:hidden;
-    border-radius:18px;
+    background-color: #f0f0f0;
+    min-height: 250px;
 }
 
 .img-wrap img{
@@ -212,7 +211,11 @@ body {
 }
 
 .listing-card{
-    position: relative;
+    background: white;
+    border-radius: 18px;
+    border: 1px solid #ebebeb;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .favorite-btn{
@@ -366,4 +369,19 @@ h3{
         gap: 28px;
         padding: 0 16px;
     }
+}
+
+
+body.search-active .hero-banner,
+body.search-active .hero-section {
+    display: none;
+}
+
+/* OR show a compact version */
+body.search-active .hero-banner {
+    min-height: 120px;
+    padding: 2rem;
+}
+body.search-active .hero-banner h1 {
+    font-size: 1.5rem;
 }
